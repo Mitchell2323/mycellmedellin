@@ -3,83 +3,332 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mycell Medellín</title>
+  <title>Mycell Medellín — Venta, reparación y más</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:     #0f0f0f;
+      --bg2:    #161616;
+      --bg3:    #1f1f1f;
+      --border: #2a2a2a;
+      --text:   #ffffff;
+      --muted:  #888888;
+      --accent: #e63946;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #0f0f0f;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
     }
-    .container {
-      text-align: center;
-      padding: 2rem;
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(15,15,15,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.9rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin-bottom: 0.5rem;
+    nav img { height: 38px; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.9rem; transition: color 0.2s;
     }
-    .subtitle {
-      font-size: 1.2rem;
-      color: #888;
-      margin-bottom: 2.5rem;
-    }
-    .socials {
-      display: flex;
-      justify-content: center;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-    }
-    .socials a {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.65rem 1.2rem;
-      border-radius: 999px;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: #25d366; color: #fff;
+      padding: 0.5rem 1.2rem; border-radius: 999px;
+      font-size: 0.875rem; font-weight: 600;
+      text-decoration: none; display: flex; align-items: center; gap: 0.4rem;
       transition: opacity 0.2s;
-      color: #fff;
     }
-    .socials a:hover { opacity: 0.75; }
-    .instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-    .facebook  { background: #1877f2; }
-    .tiktok    { background: #010101; border: 1px solid #333; }
-    .whatsapp  { background: #25d366; }
-    .socials a svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 7rem 2rem 4rem;
+    }
+    #hero .logo { width: 140px; margin-bottom: 1.5rem; }
+    #hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 700; letter-spacing: -1.5px; margin-bottom: 1rem;
+    }
+    #hero .tagline {
+      font-size: 1.15rem; color: var(--muted);
+      max-width: 480px; margin: 0 auto 2.5rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-wa {
+      background: #25d366; color: #fff;
+      padding: 0.85rem 1.8rem; border-radius: 999px;
+      font-size: 1rem; font-weight: 600; text-decoration: none;
+      display: flex; align-items: center; gap: 0.5rem; transition: opacity 0.2s;
+    }
+    .btn-wa:hover { opacity: 0.85; }
+    .btn-ghost {
+      border: 1px solid var(--border); color: var(--text);
+      padding: 0.85rem 1.8rem; border-radius: 999px;
+      font-size: 1rem; font-weight: 500; text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .btn-ghost:hover { border-color: #555; }
+
+    /* ── SECTION BASE ── */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1080px; margin: 0 auto; }
+    .section-head { text-align: center; margin-bottom: 3.5rem; }
+    .section-head h2 { font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0.5rem; }
+    .section-head p { color: var(--muted); }
+
+    /* ── SERVICIOS ── */
+    #servicios { background: var(--bg2); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+    .service-card {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2rem 1.5rem; text-align: center;
+      transition: border-color 0.25s, transform 0.25s;
+      cursor: default;
+    }
+    .service-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+    .service-icon { font-size: 2.4rem; margin-bottom: 1rem; }
+    .service-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .service-card p { color: var(--muted); font-size: 0.875rem; line-height: 1.6; }
+
+    /* ── POR QUÉ ── */
+    #porque { background: var(--bg); }
+    .porque-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2.5rem;
+    }
+    .porque-item { text-align: center; }
+    .porque-num {
+      font-size: 2.5rem; font-weight: 700; color: var(--accent);
+      margin-bottom: 0.5rem; letter-spacing: -1px;
+    }
+    .porque-item h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .porque-item p { color: var(--muted); font-size: 0.875rem; }
+
+    /* ── CONTACTO ── */
+    #contacto { background: var(--bg2); }
+    .contacto-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; align-items: start;
+    }
+    .info-block { margin-bottom: 2rem; }
+    .info-label {
+      font-size: 0.75rem; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--accent);
+      margin-bottom: 0.5rem; font-weight: 600;
+    }
+    .info-block p { color: var(--muted); font-size: 0.95rem; line-height: 1.9; }
+    .map-box {
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border); height: 320px;
+    }
+    .map-box iframe { width: 100%; height: 100%; border: none; filter: grayscale(0.3); }
+
+    /* ── REDES SOCIALES ── */
+    .socials-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .socials-row a {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 1rem; border-radius: 999px;
+      text-decoration: none; font-size: 0.83rem;
+      font-weight: 500; color: #fff; transition: opacity 0.2s;
+    }
+    .socials-row a:hover { opacity: 0.8; }
+    .socials-row a svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .s-wa  { background: #25d366; }
+    .s-ig  { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+    .s-fb  { background: #1877f2; }
+    .s-tt  { background: #010101; border: 1px solid #333; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 2rem; text-align: center;
+      color: var(--muted); font-size: 0.82rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+      .contacto-grid { grid-template-columns: 1fr; }
+      .map-box { height: 260px; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="logo.png" alt="Mycell Medellín" style="width:160px;height:auto;margin-bottom:1.2rem;" />
-    <h1>Mycell Medellín</h1>
-    <p class="subtitle">Contáctanos</p>
 
-    <div class="socials">
-      <a class="instagram" href="https://instagram.com/mycell.medellin" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.975.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.975-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.975-.975-1.246-2.242-1.308-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.975-.975 2.242-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.197.157 3.355.673 2.014 2.014.673 3.355.157 5.197.072 7.052.014 8.332 0 8.741 0 12c0 3.259.014 3.668.072 4.948.085 1.855.601 3.697 1.942 5.038 1.341 1.341 3.183 1.857 5.038 1.942C8.332 23.986 8.741 24 12 24s3.668-.014 4.948-.072c1.855-.085 3.697-.601 5.038-1.942 1.341-1.341 1.857-3.183 1.942-5.038.058-1.28.072-1.689.072-4.948s-.014-3.668-.072-4.948c-.085-1.855-.601-3.697-1.942-5.038C20.645.673 18.803.157 16.948.072 15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-        Instagram
-      </a>
-      <a class="facebook" href="https://www.facebook.com/mycell.medellin" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.027 4.388 11.024 10.125 11.927v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.514c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.097 24 18.1 24 12.073z"/></svg>
-        Facebook
-      </a>
-      <a class="tiktok" href="https://tiktok.com/@mycell.medellin" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
-        TikTok
-      </a>
-      <a class="whatsapp" href="https://wa.me/573012651922" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
-        WhatsApp
-      </a>
+  <!-- NAV -->
+  <nav>
+    <img src="logo.png" alt="Mycell Medellín" />
+    <div class="nav-links">
+      <a href="#servicios">Servicios</a>
+      <a href="#porque">Nosotros</a>
+      <a href="#contacto">Contacto</a>
     </div>
-  </div>
+    <a class="nav-cta" href="https://wa.me/573012651922" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container">
+      <img class="logo" src="logo.png" alt="Mycell Medellín" />
+      <h1>Mycell Medellín</h1>
+      <p class="tagline">Venta, reparación y más — todo en un solo lugar</p>
+      <div class="hero-btns">
+        <a class="btn-wa" href="https://wa.me/573012651922" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          Escríbenos ahora
+        </a>
+        <a class="btn-ghost" href="#servicios">Ver servicios</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <div class="container">
+      <div class="section-head">
+        <h2>Nuestros servicios</h2>
+        <p>Todo lo que tu celular necesita, en un solo lugar</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🔧</div>
+          <h3>Reparación</h3>
+          <p>Pantallas, baterías, conectores y cualquier falla. Reparamos rápido y con garantía.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📱</div>
+          <h3>Venta de celulares</h3>
+          <p>Equipos nuevos y usados de las mejores marcas al mejor precio del mercado.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🎧</div>
+          <h3>Accesorios</h3>
+          <p>Casos, cargadores, audífonos, vidrios templados y más para todas las referencias.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🔓</div>
+          <h3>Desbloqueo y software</h3>
+          <p>Flasheo, liberación de equipos, actualización de software y recuperación de datos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POR QUÉ ELEGIRNOS -->
+  <section id="porque">
+    <div class="container">
+      <div class="section-head">
+        <h2>¿Por qué elegirnos?</h2>
+        <p>La confianza de nuestros clientes nos respalda</p>
+      </div>
+      <div class="porque-grid">
+        <div class="porque-item">
+          <div class="porque-num">⚡</div>
+          <h3>Reparación el mismo día</h3>
+          <p>La mayoría de reparaciones listas en pocas horas.</p>
+        </div>
+        <div class="porque-item">
+          <div class="porque-num">✅</div>
+          <h3>Garantía incluida</h3>
+          <p>Todas nuestras reparaciones tienen garantía por escrito.</p>
+        </div>
+        <div class="porque-item">
+          <div class="porque-num">💰</div>
+          <h3>Precios justos</h3>
+          <p>Tarifas claras y competitivas, sin cobros ocultos.</p>
+        </div>
+        <div class="porque-item">
+          <div class="porque-num">🏆</div>
+          <h3>Técnicos expertos</h3>
+          <p>Amplia experiencia en todas las marcas y modelos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="container">
+      <div class="section-head">
+        <h2>Encuéntranos</h2>
+        <p>Estamos listos para atenderte</p>
+      </div>
+      <div class="contacto-grid">
+        <div>
+          <div class="info-block">
+            <p class="info-label">Dirección</p>
+            <p>
+              Circular 4 # 70 - 73<br>
+              Al frente del hotel Cabo de la Vela<br>
+              Al lado de Mondongos de la 70<br>
+              Medellín, Colombia
+            </p>
+          </div>
+          <div class="info-block">
+            <p class="info-label">Horario de atención</p>
+            <p>
+              Lunes a Viernes: 10:00am – 7:00pm<br>
+              Sábados: 10:00am – 6:00pm
+            </p>
+          </div>
+          <div class="info-block">
+            <p class="info-label">Síguenos</p>
+            <div class="socials-row">
+              <a class="s-wa" href="https://wa.me/573012651922" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                WhatsApp
+              </a>
+              <a class="s-ig" href="https://instagram.com/mycell.medellin" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.975.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.975-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.975-.975-1.246-2.242-1.308-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.975-.975 2.242-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.197.157 3.355.673 2.014 2.014.673 3.355.157 5.197.072 7.052.014 8.332 0 8.741 0 12c0 3.259.014 3.668.072 4.948.085 1.855.601 3.697 1.942 5.038 1.341 1.341 3.183 1.857 5.038 1.942C8.332 23.986 8.741 24 12 24s3.668-.014 4.948-.072c1.855-.085 3.697-.601 5.038-1.942 1.341-1.341 1.857-3.183 1.942-5.038.058-1.28.072-1.689.072-4.948s-.014-3.668-.072-4.948c-.085-1.855-.601-3.697-1.942-5.038C20.645.673 18.803.157 16.948.072 15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                Instagram
+              </a>
+              <a class="s-fb" href="https://www.facebook.com/mycell.medellin" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.027 4.388 11.024 10.125 11.927v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.514c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.097 24 18.1 24 12.073z"/></svg>
+                Facebook
+              </a>
+              <a class="s-tt" href="https://tiktok.com/@mycell.medellin" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+                TikTok
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="map-box">
+          <iframe
+            src="https://maps.google.com/maps?q=Circular+4+%2370-73+Medellin+Colombia&output=embed&z=16"
+            allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Mycell Medellín — Todos los derechos reservados</p>
+  </footer>
+
 </body>
 </html>
